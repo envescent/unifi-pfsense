@@ -3,9 +3,11 @@
 # install-unifi.sh
 # Installs the Uni-Fi controller software on a FreeBSD machine (presumably running pfSense).
 
-# The latest version of UniFi:
-UNIFI_SOFTWARE_URL="https://dl.ui.com/unifi/7.2.97/UniFi.unix.zip"
+# Recent notes by Envescent: Updated OpenJDK to 17, Unifi Network Controller to 8.1.113,
+# and all required packages. Tested and working on latest pfSense.
 
+# The latest version of UniFi:
+UNIFI_SOFTWARE_URL="https://dl.ui.com/unifi/8.1.113/UniFi.unix.zip"
 
 # The rc script associated with this branch or fork:
 RC_SCRIPT_URL="https://raw.githubusercontent.com/unofficial-unifi/unifi-pfsense/master/rc.d/unifi.sh"
@@ -118,7 +120,7 @@ AddPkg () {
   else
     env ASSUME_ALWAYS_YES=YES /usr/sbin/pkg add -f "$pkgurl" || exit 1
 
-    # if update openjdk8 then force detele snappyjava to reinstall for new version of openjdk
+    # if update openjdk8 then force delete snappyjava to reinstall for new version of openjdk
     if [ "$pkgname" == "openjdk8" ]; then
       pkg unlock -yq snappyjava
       env ASSUME_ALWAYS_YES=YES /usr/sbin/pkg delete snappyjava
@@ -139,7 +141,11 @@ AddPkg libfontenc
 AddPkg mkfontscale
 AddPkg dejavu
 AddPkg giflib
+AddPkg font-misc-meltho
 AddPkg xorgproto
+AddPkg font-misc-ethiopic
+AddPkg font-bh-ttf
+AddPkg encodings
 AddPkg libXdmcp
 AddPkg libXau
 AddPkg libxcb
@@ -155,7 +161,10 @@ AddPkg libXrender
 AddPkg libinotify
 AddPkg javavmwrapper
 AddPkg java-zoneinfo
-AddPkg openjdk8
+AddPkg lcms2
+AddPkg libXrandr
+AddPkg xorg-fonts-truetype
+AddPkg openjdk17
 AddPkg snappyjava
 AddPkg snappy
 AddPkg cyrus-sasl
@@ -238,3 +247,4 @@ fi
 echo -n "Starting the unifi service..."
 /usr/sbin/service unifi.sh start
 echo " done."
+
