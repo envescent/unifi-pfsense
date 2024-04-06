@@ -115,7 +115,7 @@ This script may create a conflict that breaks Java on a FreeBSD upgrade. To reso
   ```
 pkg unlock -yq javavmwrapper
 pkg unlock -yq java-zoneinfo
-pkg unlock -yq openjdk8
+pkg unlock -yq openjdk17
 pkg unlock -yq snappyjava
 pkg unlock -yq snappy
 pkg unlock -yq mongodb36
