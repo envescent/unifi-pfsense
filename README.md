@@ -15,7 +15,7 @@ Status
 
 The project provides an rc script to start and stop the UniFi controller, and an installation script to automatically download and install everything, including the rc script.
 
-This project uses the latest branch from Ubiquiti rather than the LTS branch. From December 2020, this means the 6.x branch.
+This project uses the latest branch from Ubiquiti, this means the 8.x branch as of March 2024.
 
 
 Compatibility
