@@ -130,15 +130,20 @@ AddPkg () {
 }
 
 #Add the following Packages for installation or reinstallation (if something was removed)
+AddPkg libunwind
+AddPkg graphite2
+AddPkg harfbuzz
 AddPkg png
 AddPkg brotli
 AddPkg freetype2
 AddPkg fontconfig
 AddPkg alsa-lib
 AddPkg mpdecimal
-AddPkg python37
+AddPkg python310
 AddPkg libfontenc
+AddPkg yaml-cpp
 AddPkg mkfontscale
+AddPkg snowballstemmer
 AddPkg dejavu
 AddPkg giflib
 AddPkg font-misc-meltho
@@ -170,7 +175,7 @@ AddPkg snappy
 AddPkg cyrus-sasl
 AddPkg icu
 AddPkg boost-libs
-AddPkg ${CURRENT_MONGODB_VERSION}
+AddPkg mongodb70
 AddPkg unzip
 AddPkg pcre
 
@@ -195,6 +200,7 @@ echo " done."
 
 # Update Unifi's symbolic link for mongod to point to the version we just installed:
 echo -n "Updating mongod link..."
+
 /bin/ln -sf /usr/local/bin/mongod /usr/local/UniFi/bin/mongod
 echo " done."
 
@@ -247,4 +253,3 @@ fi
 echo -n "Starting the unifi service..."
 /usr/sbin/service unifi.sh start
 echo " done."
-
