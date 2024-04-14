@@ -1,7 +1,7 @@
 unifi-pfsense
 =============
 
-A script that installs the UniFi Controller software on pfSense and other FreeBSD systems. Updated to Unifi Controller 8.1.113 and OpenJDK 17 with the required dependencies.
+A script that installs the UniFi Controller software on pfSense and other FreeBSD systems. Updated to Unifi Controller 8.1.113 and OpenJDK 17 with the required dependencies. Updated MongoDB to 7.0 and Python to 3.11 to improve security and performance. Will be examining creation of a jailed container environment to run this service in future versions of the script to further boost security and isolation.
 
 
 Purpose
