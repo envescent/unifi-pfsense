@@ -139,7 +139,7 @@ AddPkg freetype2
 AddPkg fontconfig
 AddPkg alsa-lib
 AddPkg mpdecimal
-AddPkg python310
+AddPkg python311
 AddPkg libfontenc
 AddPkg yaml-cpp
 AddPkg mkfontscale
