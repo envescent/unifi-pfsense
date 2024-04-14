@@ -249,6 +249,14 @@ if [ ! -z "${BACKUPFILE}" ] && [ -f ${BACKUPFILE} ]; then
   /usr/bin/tar -vxzf ${BACKUPFILE} -C /
 fi
 
+echo "Adding unifi user"
+
+/usr/sbin/pw add user unifi
+
+echo "Updating permissions for unifi data"
+
+/usr/sbin/chown -R unifi /usr/local/UniFi
+
 # Start it up:
 echo -n "Starting the unifi service..."
 /usr/sbin/service unifi.sh start
