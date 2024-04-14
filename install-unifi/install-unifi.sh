@@ -122,7 +122,7 @@ AddPkg () {
 
     # if update openjdk8 then force delete snappyjava to reinstall for new version of openjdk
     if [ "$pkgname" == "openjdk8" ]; then
-      pkg unlock -yq snappyjava
+      pkg unlock -yq snappyjava 
       env ASSUME_ALWAYS_YES=YES /usr/sbin/pkg delete snappyjava
     fi
   fi
@@ -248,6 +248,10 @@ if [ ! -z "${BACKUPFILE}" ] && [ -f ${BACKUPFILE} ]; then
   mv /usr/local/UniFi/data /usr/local/UniFi/data-`date +%Y%m%d-%H%M`
   /usr/bin/tar -vxzf ${BACKUPFILE} -C /
 fi
+
+echo "Setting web port to HTTPS/8444"
+
+echo "portal.https.port=8444" >> /usr/local/UniFi/data/system.properties
 
 echo "Adding unifi user"
 
