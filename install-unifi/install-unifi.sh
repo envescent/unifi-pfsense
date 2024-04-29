@@ -249,9 +249,15 @@ if [ ! -z "${BACKUPFILE}" ] && [ -f ${BACKUPFILE} ]; then
   /usr/bin/tar -vxzf ${BACKUPFILE} -C /
 fi
 
-echo "Setting web port to HTTPS/8444"
+echo "Setting secure web port to HTTPS/8444"
 
 echo "portal.https.port=8444" >> /usr/local/UniFi/data/system.properties
+
+echo "unifi.https.port=8444" >> /usr/local/UniFi/data/system.properies
+
+echo "Setting plaintext redirect to HTTPS port to HTTP/8888"
+
+echo "unifi.http.port=8888" >> /usr/local/UniFi/data/system.properies
 
 echo "Adding unifi user"
 
