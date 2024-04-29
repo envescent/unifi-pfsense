@@ -3,11 +3,11 @@
 # install-unifi.sh
 # Installs the Uni-Fi controller software on a FreeBSD machine (presumably running pfSense).
 
-# Recent notes by Envescent: Updated OpenJDK to 17, Unifi Network Controller to 8.1.113,
+# Recent notes by Envescent: Updated OpenJDK to 17, Unifi Network Controller to 8.1.127,
 # and all required packages. Tested and working on latest pfSense.
 
 # The latest version of UniFi:
-UNIFI_SOFTWARE_URL="https://dl.ui.com/unifi/8.1.113/UniFi.unix.zip"
+UNIFI_SOFTWARE_URL="https://dl.ui.com/unifi/8.1.127/UniFi.unix.zip"
 
 # The rc script associated with this branch or fork:
 RC_SCRIPT_URL="https://raw.githubusercontent.com/unofficial-unifi/unifi-pfsense/master/rc.d/unifi.sh"
