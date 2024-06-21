@@ -1,16 +1,14 @@
-#!/bin/sh
-
 # install-unifi.sh
 # Installs the Uni-Fi controller software on a FreeBSD machine (presumably running pfSense).
 
-# Recent notes by Envescent: Updated OpenJDK to 17, Unifi Network Controller to 8.1.127,
+# Recent notes by Envescent: Updated OpenJDK to 22, Unifi Network Controller to 8.1.127,
 # and all required packages. Tested and working on latest pfSense.
 
 # The latest version of UniFi:
-UNIFI_SOFTWARE_URL="https://dl.ui.com/unifi/8.1.127/UniFi.unix.zip"
+UNIFI_SOFTWARE_URL="https://dl.ui.com/unifi/8.2.93/UniFi.unix.zip"
 
 # The rc script associated with this branch or fork:
-RC_SCRIPT_URL="https://raw.githubusercontent.com/unofficial-unifi/unifi-pfsense/master/rc.d/unifi.sh"
+RC_SCRIPT_URL="https://raw.githubusercontent.com/envescent/unifi-pfsense/master/rc.d/unifi.sh"
 
 CURRENT_MONGODB_VERSION=mongodb70
 
@@ -31,7 +29,7 @@ fi
 ABI=`/usr/sbin/pkg config abi`
 
 # FreeBSD package source:
-FREEBSD_PACKAGE_URL="https://pkg.freebsd.org/${ABI}/latest/"
+FREEBSD_PACKAGE_URL="https://pkg.freebsd.org/FreeBSD:14:amd64/latest/"
 
 # FreeBSD package list:
 FREEBSD_PACKAGE_LIST_URL="${FREEBSD_PACKAGE_URL}packagesite.pkg"
@@ -92,6 +90,8 @@ old_mongos=`pkg info | grep mongodb | grep -v ${CURRENT_MONGODB_VERSION}`
 for old_mongo in "${old_mongos}"; do
   package=`echo "$old_mongo" | cut -d' ' -f1`
   pkg unlock -yq ${package}
+#  pkg unlock -yq mongodb70
+#  pkg del mongodb70
   env ASSUME_ALWAYS_YES=YES /usr/sbin/pkg delete ${package}
 done
 echo " done."
@@ -121,8 +121,8 @@ AddPkg () {
     env ASSUME_ALWAYS_YES=YES /usr/sbin/pkg add -f "$pkgurl" || exit 1
 
     # if update openjdk8 then force delete snappyjava to reinstall for new version of openjdk
-    if [ "$pkgname" == "openjdk8" ]; then
-      pkg unlock -yq snappyjava 
+    if [ "$pkgname" == "openjdk17" ]; then
+      pkg unlock -yq snappyjava
       env ASSUME_ALWAYS_YES=YES /usr/sbin/pkg delete snappyjava
     fi
   fi
@@ -146,6 +146,7 @@ AddPkg mkfontscale
 AddPkg snowballstemmer
 AddPkg dejavu
 AddPkg giflib
+AddPkg yaml-cpp
 AddPkg font-misc-meltho
 AddPkg xorgproto
 AddPkg font-misc-ethiopic
@@ -170,17 +171,21 @@ AddPkg lcms2
 AddPkg libXrandr
 AddPkg xorg-fonts-truetype
 AddPkg openjdk17
-AddPkg snappyjava
 AddPkg snappy
+AddPkg snappyjava
 AddPkg cyrus-sasl
 AddPkg icu
 AddPkg boost-libs
 AddPkg ${CURRENT_MONGODB_VERSION}
 AddPkg unzip
 AddPkg pcre
+AddPkg joe
+AddPkg screen
 
 # Clean up downloaded package manifest:
 rm packagesite.*
+
+pkg upgrade 
 
 echo " done."
 
@@ -248,24 +253,6 @@ if [ ! -z "${BACKUPFILE}" ] && [ -f ${BACKUPFILE} ]; then
   mv /usr/local/UniFi/data /usr/local/UniFi/data-`date +%Y%m%d-%H%M`
   /usr/bin/tar -vxzf ${BACKUPFILE} -C /
 fi
-
-echo "Setting secure web port to HTTPS/8444"
-
-echo "portal.https.port=8444" >> /usr/local/UniFi/data/system.properties
-
-echo "unifi.https.port=8444" >> /usr/local/UniFi/data/system.properies
-
-echo "Setting plaintext redirect to HTTPS port to HTTP/8888"
-
-echo "unifi.http.port=8888" >> /usr/local/UniFi/data/system.properies
-
-echo "Adding unifi user"
-
-/usr/sbin/pw add user unifi
-
-echo "Updating permissions for unifi data"
-
-/usr/sbin/chown -R unifi /usr/local/UniFi
 
 # Start it up:
 echo -n "Starting the unifi service..."
